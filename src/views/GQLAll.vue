@@ -10,7 +10,7 @@
         fluid
         grid-list-lg
       >
-      <h1>Products</h1>
+      <h1>Products GQLALL</h1>
         <v-layout row wrap>
 
 <v-flex d-flex v-for="product in products" xs12 lg6>
