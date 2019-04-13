@@ -15,46 +15,33 @@
     <v-card height="55px" flat>
 
     <v-bottom-nav
-      :active.sync="bottomNav"
       :value="true"
       fixed
     >
-    <v-layout>
 
-    <router-link to="/gqlall">
+
       <v-btn
         color="teal"
         flat
-        value="GQL All Products"
+        value="GraphQL Server"
+        @click="$router.push('gqlall')"
       >
       
-        <span>GraphQL All Products</span>
+        <span>GraphQL Server</span>
         
       </v-btn>
-      </router-link>
 
-<router-link to="/Test">
       <v-btn
         color="teal"
         flat
         value="Test"
+        @click="$router.push('test')"
       >
       
         <span>Test</span>
         
       </v-btn>
-      </router-link>
 
-<router-link to="/Test">
-      <v-btn
-        color="teal"
-        flat
-        value="nearby"
-      >
-        <span>Nearby</span>
-      </v-btn>
-</router-link>
-    </v-layout>
     </v-bottom-nav>
   </v-card>
   </v-app>

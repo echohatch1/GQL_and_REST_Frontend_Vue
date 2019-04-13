@@ -10,15 +10,18 @@
         fluid
         grid-list-lg
       >
-      <h1>GraphQL Server / All Products</h1>
+      <h1>GraphQL Server / Find Products by Name</h1>
 
 <v-container id="dropdown-example" grid-list-xl>
-    <v-layout row wrap>
+
+<v-layout row wrap>
+
       <v-flex xs12 sm6>
               <v-select
+                outline
                 v-model="select"
                 :items="queries"
-                placeholder="All Products"
+                placeholder="Find by Name"
                 label="Queries"
                 @change="$router.push(select)"
               ></v-select>
@@ -27,6 +30,7 @@
 
       <v-flex xs12 sm6>
             <v-select
+                outline
                 v-model="select"
                 :items="mutations"
                 placeholder="Select an item"
@@ -35,8 +39,26 @@
               ></v-select>
 
       </v-flex>
+      </v-layout>
 
-    </v-layout>
+
+<form @submit.prevent="getOneById()">
+  <v-layout row wrap>
+
+  <v-flex xs12 md10>
+              <v-text-field solo label="Product Name" v-model="productName"></v-text-field>
+  </v-flex>
+  <v-flex xs12 md2>
+              <v-btn
+                @click="getOneById()"
+                class="blue white--text"
+              >Search</v-btn>
+  </v-flex>
+</v-layout>
+</form>
+
+
+    
   </v-container>
 
 
@@ -59,7 +81,6 @@
                       <div class="headline" style="text-transform: capitalize"><b>{{ product.name }}</b></div>
                       <p><b>Description: </b>{{ product.desc | uppercase(product.desc, true) }}</p>
                       <p><b>Price:</b> ${{ product.price }}</p>
-                      <p><b>ID:</b> ${{ product.id }}</p>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -80,33 +101,50 @@
  import gql from "graphql-tag"
 
 export default {
-  methods: {
-
-  },
   data() {
     return {
       info: "",
       products: [],
       select: null,
+      productName: null,
       queries: this.$store.state.queries,
       mutations: this.$store.state.mutations
     };
+  },
+    methods: {
+      getOneById: function() {
+      this.$apollo
+        .query({
+          query: gql`
+            query getOne($name: String!) {
+              products(where: { name: $name }) {
+                id
+                name
+                desc
+                price
+              }
+            }
+          `,
+          variables: {
+            name: this.productName
+          }
+        })
+          .then(res => {
+          this.products = res.data.products;
+          console.log(this.products);
+        })
+        .catch(err => {
+          this.error = err;
+        });
+        
+        
+    },
   },
   mounted() {
     // return axios
     //   .get("https://pokeapi.co/api/v2/pokemon/1")
     //   .then(response => (this.info = response));
   },
-  apollo: {
-    products: gql`query {
-      products {
-    id
-    name
-    desc
-    price
-  }
-    }`,
-  }
 };
 </script>
 

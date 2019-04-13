@@ -3,6 +3,7 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import { createProvider } from './vue-apollo'
+import store from "./store";
 
 Vue.config.productionTip = false
 Vue.filter ("uppercase", function(value, onlyFirstCharacter) {
@@ -23,6 +24,7 @@ Vue.filter ("uppercase", function(value, onlyFirstCharacter) {
 
 new Vue({
   router,
+  store,
   apolloProvider: createProvider(),
   render: h => h(App)
 }).$mount('#app')
