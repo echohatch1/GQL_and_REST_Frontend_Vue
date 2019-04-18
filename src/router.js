@@ -4,6 +4,7 @@ import GQLAll from "./views/GQLAll.vue"
 import Test from "./views/Test.vue"
 import GQLFindId from "./views/GQLFindId"
 import GQLFindName from "./views/GQLFindName"
+import GQLDelete from "./views/GQLDelete"
 
 
 Vue.use(Router);
@@ -30,6 +31,11 @@ export default new Router({
       path: "/gqlfindname",
       name: "GQLFindName",
       component: GQLFindName
+    },
+    {
+      path: "/gqldelete",
+      name: "GQLDelete",
+      component: GQLDelete
     },
   ]
 });

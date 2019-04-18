@@ -13,7 +13,7 @@ export default new Vuex.Store({
       mutations: [
         {text: 'Create a Product', value: 'test'}, 
         {text: 'Update a Product'},
-        {text: 'Delete a Product'},
+        {text: 'Delete a Product', value: 'gqldelete'},
         ],
   },
   mutations: {},

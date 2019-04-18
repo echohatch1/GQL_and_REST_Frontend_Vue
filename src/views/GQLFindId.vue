@@ -22,7 +22,7 @@
                 v-model="select"
                 :items="queries"
                 placeholder="Find by Id"
-                label="Queries"
+                label="Queries (Get Data)"
                 @change="$router.push(select)"
               ></v-select>
 
@@ -34,7 +34,7 @@
                 v-model="select"
                 :items="mutations"
                 placeholder="Select an item"
-                label="Mutations"
+                label="Mutations (Create/Change Data)"
                 @change="$router.push(select)"
               ></v-select>
 

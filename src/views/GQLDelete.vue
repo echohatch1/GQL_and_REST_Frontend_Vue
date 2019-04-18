@@ -10,18 +10,15 @@
         fluid
         grid-list-lg
       >
-      <h1>GraphQL Server / Find Products by Name</h1>
+      <h1>GraphQL Server / Delete Products</h1>
 
 <v-container id="dropdown-example" grid-list-xl>
-
-<v-layout row wrap>
-
+    <v-layout row wrap>
       <v-flex xs12 sm6>
               <v-select
-                outline
                 v-model="select"
                 :items="queries"
-                placeholder="Find by Name"
+                placeholder="All Products"
                 label="Queries (Get Data)"
                 @change="$router.push(select)"
               ></v-select>
@@ -30,36 +27,16 @@
 
       <v-flex xs12 sm6>
             <v-select
-                outline
                 v-model="select"
                 :items="mutations"
-                placeholder="Select an item"
+                placeholder="Delete a Product"
                 label="Mutations (Create/Change Data)"
                 @change="$router.push(select)"
               ></v-select>
 
       </v-flex>
-      </v-layout>
 
-
-<form @submit.prevent="getOneById()">
-  <v-layout row wrap>
-
-  <v-flex xs12 md10>
-              <v-text-field solo label="Product Name" v-model="productName"></v-text-field>
-      
-  </v-flex>
-  <v-flex xs12 md2>
-              <v-btn
-                @click="getOneById()"
-                class="blue white--text"
-              >Search</v-btn>
-  </v-flex>
-</v-layout>
-</form>
-
-
-    
+    </v-layout>
   </v-container>
 
 
@@ -68,7 +45,7 @@
 <v-flex d-flex v-for="product in products" xs12 lg6>
           
             <v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;">
-              <v-layout>
+              <v-layout row wrap>
                 <v-flex xs5>
                   <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
@@ -84,6 +61,12 @@
                       <p><b>Price:</b> ${{ product.price }}</p>
                     </div>
                   </v-card-title>
+                </v-flex>
+              </v-layout>
+
+              <v-layout justify-space-between>
+                  <v-flex xs2>
+                      <v-btn color="warning" @click="deleteOneById(product.id)">Delete</v-btn>
                 </v-flex>
               </v-layout>
 
@@ -107,32 +90,30 @@ export default {
       info: "",
       products: [],
       select: null,
-      productName: null,
+      productId: null,
       queries: this.$store.state.queries,
       mutations: this.$store.state.mutations
     };
   },
-    methods: {
-      getOneById: function() {
-      this.$apollo
-        .query({
-          query: gql`
-            query getOne($name: String!) {
-              products(where: { name: $name }) {
+      methods: {
+      deleteOneById(id) {
+        this.productId = id;
+      this.$apollo.mutate({
+          mutation: gql`
+            mutation deleteOne($id: ID) {
+              deleteProduct(where: { id: $id }) {
                 id
                 name
-                desc
-                price
               }
             }
           `,
           variables: {
-            name: this.productName.toLowerCase()
+            id: this.productId
           }
         })
+        
           .then(res => {
-          this.products = res.data.products;
-          console.log(this.products);
+          console.log(res.data);
         })
         .catch(err => {
           this.error = err;
@@ -140,10 +121,38 @@ export default {
     },
   },
   mounted() {
-    // return axios
-    //   .get("https://pokeapi.co/api/v2/pokemon/1")
-    //   .then(response => (this.info = response));
+
+      this.$apollo
+        .query({
+          query: gql`
+            query {
+      products {
+    id
+    name
+    desc
+    price
+  }
+    }
+          `,
+        })
+        /*
+          .then(res => {
+          console.log("Product" + this.productId + "deleted.")
+        })
+        .catch(err => {
+          this.error = err;
+        });*/
   },
+  apollo: {
+    products: gql`query {
+      products {
+    id
+    name
+    desc
+    price
+  }
+    }`,
+  }
 };
 </script>
 

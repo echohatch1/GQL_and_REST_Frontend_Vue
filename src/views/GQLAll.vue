@@ -19,7 +19,7 @@
                 v-model="select"
                 :items="queries"
                 placeholder="All Products"
-                label="Queries"
+                label="Queries (Get Data)"
                 @change="$router.push(select)"
               ></v-select>
 
@@ -30,7 +30,7 @@
                 v-model="select"
                 :items="mutations"
                 placeholder="Select an item"
-                label="Mutations"
+                label="Mutations (Create/Change Data)"
                 @change="$router.push(select)"
               ></v-select>
 
@@ -59,7 +59,7 @@
                       <div class="headline" style="text-transform: capitalize"><b>{{ product.name }}</b></div>
                       <p><b>Description: </b>{{ product.desc | uppercase(product.desc, true) }}</p>
                       <p><b>Price:</b> ${{ product.price }}</p>
-                      <p><b>ID:</b> ${{ product.id }}</p>
+                      <p><b>ID:</b> {{ product.id }}</p>
                     </div>
                   </v-card-title>
                 </v-flex>
