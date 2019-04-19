@@ -11,8 +11,8 @@ export default new Vuex.Store({
         {text: 'Find by Name', value: 'gqlfindname'}
         ],
       mutations: [
-        {text: 'Create a Product', value: 'test'}, 
-        {text: 'Update a Product'},
+        {text: 'Create a Product', value: 'gqlcreate'}, 
+        {text: 'Update a Product', value: 'test'},
         {text: 'Delete a Product', value: 'gqldelete'},
         ],
   },
