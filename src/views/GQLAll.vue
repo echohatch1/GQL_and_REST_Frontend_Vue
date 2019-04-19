@@ -20,7 +20,7 @@
                 :items="queries"
                 placeholder="All Products"
                 label="Queries (Get Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
@@ -31,7 +31,7 @@
                 :items="mutations"
                 placeholder="Choose One"
                 label="Mutations (Create/Change Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
@@ -81,7 +81,10 @@
 
 export default {
   methods: {
-
+    runRoute: function() {
+      this.$router.push(this.select);
+      //this.$router.go();
+    }
   },
   data() {
     return {

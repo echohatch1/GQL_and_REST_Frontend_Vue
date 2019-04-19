@@ -18,24 +18,24 @@
 
       <v-flex xs12 sm6>
               <v-select
-                outline
+                
                 v-model="select"
                 :items="queries"
                 placeholder="Find by Name"
                 label="Queries (Get Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
 
       <v-flex xs12 sm6>
             <v-select
-                outline
+                
                 v-model="select"
                 :items="mutations"
                 placeholder="Choose One"
                 label="Mutations (Create/Change Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
@@ -113,6 +113,10 @@ export default {
     };
   },
     methods: {
+                runRoute: function() {
+      this.$router.push(this.select);
+      //this.$router.go();
+    },
       getOneById: function() {
       this.$apollo
         .query({

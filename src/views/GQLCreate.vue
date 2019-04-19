@@ -20,7 +20,7 @@
                 :items="queries"
                 placeholder="Choose One"
                 label="Queries (Get Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
@@ -31,7 +31,7 @@
                 :items="mutations"
                 placeholder="Create a Product"
                 label="Mutations (Create/Change Data)"
-                @change="$router.push(select)"
+                @change="runRoute()"
               ></v-select>
 
       </v-flex>
@@ -154,6 +154,10 @@ export default {
     };
   },
       methods: {
+                  runRoute: function() {
+      this.$router.push(this.select);
+      //this.$router.go();
+    },
       createOne() {
           if (this.$refs.form.validate()) {
 
