@@ -18,7 +18,7 @@
               <v-select
                 v-model="select"
                 :items="queries"
-                placeholder="All Products"
+                placeholder="Choose One"
                 label="Queries (Get Data)"
                 @change="$router.push(select)"
               ></v-select>
@@ -42,9 +42,9 @@
 
         <v-layout row wrap>
 
-<v-flex d-flex v-for="product in products" xs12 lg6>
+<v-flex v-for="(product, index) in products" xs12 lg6>
           
-            <v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;">
+            <!--<v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;" height="100%">
               <v-layout row wrap>
                 <v-flex xs5>
                   <v-img
@@ -63,14 +63,40 @@
                   </v-card-title>
                 </v-flex>
               </v-layout>
-
-              <v-layout justify-space-between>
-                  <v-flex xs2>
+              <v-divider></v-divider>
+              <v-layout align-content-end justify-end>
+                <v-flex>
+                  <v-card-actions>
                       <v-btn color="warning" @click="deleteOneById(product.id)">Delete</v-btn>
-                </v-flex>
+                  </v-card-actions>
+                  </v-flex>
               </v-layout>
+            </v-card>-->
 
-            </v-card>
+            <v-card
+    class="mx-auto"
+    color="#26c6da"
+    dark
+    max-width="400"
+  >
+    <v-card-title>
+
+      <span class="headline font-weight-bold" style="text-transform: capitalize">{{ product.name }}</span>
+    </v-card-title>
+
+    <v-card-text class="title font-weight-light">
+      {{ product.desc }}
+    </v-card-text>
+    <v-card-text class="title font-weight-bold">
+      ${{ product.price }}
+    </v-card-text>
+
+    <v-card-actions>
+      <v-list-tile class="grow">
+        <v-btn color="warning" @click="deleteOneById(product.id, index)">Delete</v-btn>
+      </v-list-tile>
+    </v-card-actions>
+  </v-card>
 
           </v-flex>
 
@@ -91,13 +117,17 @@ export default {
       products: [],
       select: null,
       productId: null,
+      showing: true,
       queries: this.$store.state.queries,
       mutations: this.$store.state.mutations
     };
   },
       methods: {
-      deleteOneById(id) {
+      deleteOneById(id, index) {
         this.productId = id;
+        console.log("Deleted: " + this.products[index].name);
+        this.products.splice(index, 1);
+
       this.$apollo.mutate({
           mutation: gql`
             mutation deleteOne($id: ID) {
@@ -111,16 +141,17 @@ export default {
             id: this.productId
           }
         })
-        
           .then(res => {
-          console.log(res.data);
+          this.info = res.data;
+
+
         })
         .catch(err => {
           this.error = err;
         });
     },
   },
-  mounted() {
+  mounted() {/*
 
       this.$apollo
         .query({
@@ -135,9 +166,9 @@ export default {
     }
           `,
         })
-        /*
+        
           .then(res => {
-          console.log("Product" + this.productId + "deleted.")
+          this.products = res.data.products;
         })
         .catch(err => {
           this.error = err;
