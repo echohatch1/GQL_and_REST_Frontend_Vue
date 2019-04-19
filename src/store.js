@@ -12,7 +12,7 @@ export default new Vuex.Store({
         ],
       mutations: [
         {text: 'Create a Product', value: 'gqlcreate'}, 
-        {text: 'Update a Product', value: 'test'},
+        {text: 'Update a Product', value: 'gqlupdate'},
         {text: 'Delete a Product', value: 'gqldelete'},
         ],
   },

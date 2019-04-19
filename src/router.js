@@ -6,6 +6,7 @@ import GQLFindId from "./views/GQLFindId"
 import GQLFindName from "./views/GQLFindName"
 import GQLDelete from "./views/GQLDelete"
 import GQLCreate from "./views/GQLCreate"
+import GQLUpdate from "./views/GQLUpdate"
 
 
 Vue.use(Router);
@@ -47,6 +48,11 @@ export default new Router({
       path: "/gqlcreate",
       name: "GQLCreate",
       component: GQLCreate
+    },
+    {
+      path: "/gqlupdate",
+      name: "GQLUpdate",
+      component: GQLUpdate
     },
   ]
 });
