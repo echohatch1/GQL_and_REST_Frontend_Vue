@@ -29,7 +29,7 @@
             <v-select
                 v-model="select"
                 :items="mutations"
-                placeholder="Select an item"
+                placeholder="Choose One"
                 label="Mutations (Create/Change Data)"
                 @change="$router.push(select)"
               ></v-select>
