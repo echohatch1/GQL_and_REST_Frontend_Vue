@@ -2,7 +2,7 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / All Products</h1>
+        <h1>GraphQL Server <span class="page-name">| All Products</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>

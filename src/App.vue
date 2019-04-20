@@ -9,7 +9,7 @@
       <v-btn-toggle v-model="toggle_one" mandatory>
       <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('gqlall')">GraphQL Server</v-btn>
 
-      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('test')">RESTfull Server</v-btn>
+      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('RESTall')">RESTfull Server</v-btn>
       </v-btn-toggle>
     </v-toolbar>
 
@@ -45,6 +45,9 @@ export default {
 <style>
 h1 {
   color: #fb8c00;
+}
+.page-name {
+  color: #2d2d2d;
 }
 </style>
 
