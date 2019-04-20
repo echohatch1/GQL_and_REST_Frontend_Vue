@@ -1,22 +1,12 @@
 <template>
-  <div
-    id="e3"
-    style="max-width: 900px; margin: auto;"
-    class="grey lighten-3"
-  >
-
+  <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
-      <v-container
-        fluid
-        grid-list-lg
-      >
-      <h1>GraphQL Server / Find Products by Id</h1>
+      <v-container fluid grid-list-lg>
+        <h1>GraphQL Server / Find Products by Id</h1>
 
-<v-container id="dropdown-example" grid-list-xl>
-
-<v-layout row wrap>
-
-      <v-flex xs12 sm6>
+        <v-container id="dropdown-example" grid-list-xl>
+          <v-layout row wrap>
+            <v-flex xs12 sm6>
               <v-select
                 v-model="select"
                 :items="queries"
@@ -24,70 +14,45 @@
                 label="Queries (Get Data)"
                 @change="runRoute()"
               ></v-select>
+            </v-flex>
 
-      </v-flex>
-
-      <v-flex xs12 sm6>
-            <v-select
+            <v-flex xs12 sm6>
+              <v-select
                 v-model="select"
                 :items="mutations"
                 placeholder="Choose One"
                 label="Mutations (Create/Change Data)"
                 @change="runRoute()"
               ></v-select>
+            </v-flex>
+          </v-layout>
 
-      </v-flex>
-      </v-layout>
-
-
-<form @submit.prevent="getOneById()">
-  <v-layout row wrap>
-
-  <v-flex xs12 md10>
-              <v-text-field solo label="Product Id" v-model="productId"></v-text-field>
-  </v-flex>
-  <v-flex xs12 md2>
-              <v-btn
-                @click="getOneById()"
-                class="blue white--text"
-              >Search</v-btn>
-  </v-flex>
-</v-layout>
-</form>
-
-
-    
-  </v-container>
-
+          <form @submit.prevent="getOneById()">
+            <v-layout row wrap>
+              <v-flex xs12 md10>
+                <v-text-field solo label="Product Id" v-model="productId"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md2>
+                <v-btn @click="getOneById()" class="blue white--text">Search</v-btn>
+              </v-flex>
+            </v-layout>
+          </form>
+        </v-container>
 
         <v-layout row wrap>
+          <v-flex v-for="product in products" xs12 lg6>
+            <v-card class color="#2d2d2d" dark max-width="400">
+              <v-card-title>
+                <span
+                  class="headline font-weight-bold"
+                  style="text-transform: capitalize"
+                >{{ product.name }}</span>
+              </v-card-title>
 
-<v-flex d-flex v-for="product in products" xs12 lg6>
-          
-            <v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;">
-              <v-layout>
-                <v-flex xs5>
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                    height="125px"
-                    contain
-                  ></v-img>
-                </v-flex>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline" style="text-transform: capitalize"><b>{{ product.name }}</b></div>
-                      <p><b>Description: </b>{{ product.desc | uppercase(product.desc, true) }}</p>
-                      <p><b>Price:</b> ${{ product.price }}</p>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-              </v-layout>
-
+              <v-card-text class="title font-weight-light">{{ product.desc }}</v-card-text>
+              <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
             </v-card>
-
           </v-flex>
-
         </v-layout>
       </v-container>
     </v-card>
@@ -95,8 +60,8 @@
 </template>
 
 <script>
- //import axios from "axios"
- import gql from "graphql-tag"
+//import axios from "axios"
+import gql from "graphql-tag";
 
 export default {
   data() {
@@ -109,12 +74,11 @@ export default {
       mutations: this.$store.state.mutations
     };
   },
-    methods: {
-          runRoute: function() {
+  methods: {
+    runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     },
-      getOneById: function() {
+    getOneById: function() {
       this.$apollo
         .query({
           query: gql`
@@ -131,25 +95,17 @@ export default {
             id: this.productId
           }
         })
-          .then(res => {
+        .then(res => {
           this.products = res.data.products;
           console.log(this.products);
         })
         .catch(err => {
           this.error = err;
         });
-        
-        
-    },
-  },
-  mounted() {
-    // return axios
-    //   .get("https://pokeapi.co/api/v2/pokemon/1")
-    //   .then(response => (this.info = response));
+    }
   },
 };
 </script>
 
 <style>
-
 </style>
