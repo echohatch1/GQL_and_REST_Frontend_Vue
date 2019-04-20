@@ -1,12 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
-import GQLAll from "./views/GQLAll.vue"
-import Test from "./views/Test.vue"
-import GQLFindId from "./views/GQLFindId"
-import GQLFindName from "./views/GQLFindName"
-import GQLDelete from "./views/GQLDelete"
-import GQLCreate from "./views/GQLCreate"
-import GQLUpdate from "./views/GQLUpdate"
+import GQLAll from "./views/GQL/GQLAll.vue"
+import Test from "./views/REST/Test.vue"
+import GQLFindId from "./views/GQL/GQLFindId"
+import GQLFindName from "./views/GQL/GQLFindName"
+import GQLDelete from "./views/GQL/GQLDelete"
+import GQLCreate from "./views/GQL/GQLCreate"
+import GQLUpdate from "./views/GQL/GQLUpdate"
 
 
 Vue.use(Router);
@@ -16,7 +16,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
+      name: "GQLall",
+      redirect: "GQLall",
       component: GQLAll
     },
     {
