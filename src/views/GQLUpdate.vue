@@ -75,11 +75,17 @@
             </v-card>-->
 
             <v-card
-    class="mx-auto mb-4 px-4 py-4"
+    class="mx-auto mb-4"
     color="#26c6da"
-    dark
     max-width="400"
   >
+  <v-layout>
+      <v-flex>
+  <v-card-title>
+      <span class="headline font-weight-bold" style="text-transform: capitalize">Edit</span>
+    </v-card-title>
+      </v-flex>
+  </v-layout>
     <!--<v-card-title>
 
       <span class="headline font-weight-bold" style="text-transform: capitalize">{{ product.name }}</span>
@@ -92,14 +98,16 @@
       ${{ product.price }}
     </v-card-text>-->
 
-    <v-form @submit.prevent="createOne()" ref="form">
-  <v-layout row wrap>
+    <v-form @submit.prevent="updateOne()" ref="form">
+  <v-layout row wrap class="mx-2">
 
-  <v-flex xs12 md10>
-              <v-text-field solo label="Product Name" :value="product.name" :placeholder="product.name.toString()" v-model="name[key]"></v-text-field>
-              <v-text-field type="number" solo label="Product Price" :value="product.price" :placeholder="product.price.toString()" v-model="price[key]"></v-text-field>
-              <v-textarea solo label="Product Description" :value="product.desc" :placeholder="product.desc.toString()" v-model="desc[key]"></v-textarea>
+  <v-flex xs12>
+              <v-text-field solo label="Product Name"  v-model="products[key].name"></v-text-field>
+              <v-text-field type="number" solo label="Product Price" v-model="products[key].price"></v-text-field>
+              <v-textarea solo label="Product Description" v-model="products[key].desc"></v-textarea>
   </v-flex>
+  </v-layout>
+  <v-layout>
   <v-flex xs12 md2>
               <v-btn
                 @click="updateOne(key)"
@@ -131,10 +139,6 @@ export default {
       select: null,
         price: null,
         desc: null,
-        name: [],
-        price: [],
-        desc: [],
-        productId: null,
       queries: this.$store.state.queries,
       mutations: this.$store.state.mutations,
       
@@ -147,11 +151,6 @@ export default {
     },
       updateOne(key) {
           console.log("Updating " + this.products[key].name);
-          this.productId = this.products[key].id;
-            console.log(this.productId);
-            console.log(this.name[key]);
-            console.log(this.price[key]);
-            console.log(this.desc[key]);
 
       this.$apollo.mutate({
           mutation: gql`mutation updateProduct(
@@ -170,10 +169,10 @@ export default {
   }
 }`,
           variables: {
-            name: this.name,
-            price: parseInt(this.price, 10),
-            desc: this.desc,
-            id: this.productId
+            name: this.products[key].name,
+            price: parseInt(this.products[key].price, 10),
+            desc: this.products[key].desc,
+            id: this.products[key].id
           }
         })
           .then(res => {
@@ -195,20 +194,6 @@ export default {
   }
     }`,
   },
-  created() {
-        var i = 0;
-        for (i = 0; i < this.products.length; i++){
-            this.$set(this.name, i, 0) // This is the vuejs-way of setting array values
-        }
-        var iTwo = 0;
-        for (iTwo = 0; iTwo < this.products.length; iTwo++){
-            this.$set(this.price, iTwo, 0) // This is the vuejs-way of setting array values
-        }
-        var iThree = 0;
-        for (iThree = 0; iThree < this.products.length; iThree++){
-            this.$set(this.desc, iThree, 0) // This is the vuejs-way of setting array values
-        }
-    }
 
 };
 </script>
