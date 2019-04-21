@@ -52,14 +52,12 @@
 </template>
 
 <script>
-//import axios from "axios"
 import gql from "graphql-tag";
 
 export default {
   methods: {
     runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     }
   },
   data() {
@@ -72,9 +70,7 @@ export default {
     };
   },
   mounted() {
-    // return axios
-    //   .get("https://pokeapi.co/api/v2/pokemon/1")
-    //   .then(response => (this.info = response));
+
   },
   apollo: {
     products: gql`

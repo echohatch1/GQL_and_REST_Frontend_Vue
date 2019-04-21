@@ -2,14 +2,14 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>RESTfull and </span>
+        <span>RESTful and </span>
         <span class="font-weight-light">GraphQL Servers</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn-toggle v-model="toggle_one" mandatory>
       <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('gqlall')">GraphQL Server</v-btn>
 
-      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('RESTall')">RESTfull Server</v-btn>
+      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('restall')">RESTful Server</v-btn>
       </v-btn-toggle>
     </v-toolbar>
 
