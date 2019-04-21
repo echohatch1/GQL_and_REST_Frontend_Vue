@@ -2,16 +2,16 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / Find Products by Id</h1>
+        <h1>RESTful Server <span class="page-name">| Find Products by Id</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="queries"
-                placeholder="Find by Id"
-                label="Queries (Get Data)"
+                :items="getRoutes"
+                placeholder="Find a Product by Id"
+                label="GET Routes (Get Data)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -19,9 +19,9 @@
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="mutations"
+                :items="otherRoutes"
                 placeholder="Choose One"
-                label="Mutations (Create/Change Data)"
+                label="Other Routes (POST/PUT/DELETE)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -60,8 +60,7 @@
 </template>
 
 <script>
-//import axios from "axios"
-import gql from "graphql-tag";
+import axios from "axios"
 
 export default {
   data() {
@@ -70,8 +69,8 @@ export default {
       products: [],
       select: null,
       productId: null,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations
+      getRoutes: this.$store.state.getRoutes,
+      otherRoutes: this.$store.state.otherRoutes,
     };
   },
   methods: {
@@ -79,29 +78,16 @@ export default {
       this.$router.push(this.select);
     },
     getOneById: function() {
-      this.$apollo
-        .query({
-          query: gql`
-            query getOne($id: ID) {
-              products(where: { id: $id }) {
-                id
-                name
-                desc
-                price
-              }
-            }
-          `,
-          variables: {
-            id: this.productId
-          }
-        })
-        .then(res => {
-          this.products = res.data.products;
-          console.log(this.products);
-        })
-        .catch(err => {
-          this.error = err;
-        });
+    axios
+      .get('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.productId)
+      .then(response => {
+        this.products.push(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
     }
   },
 };

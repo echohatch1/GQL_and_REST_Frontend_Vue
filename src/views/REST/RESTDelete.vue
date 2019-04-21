@@ -2,16 +2,16 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / Delete Products</h1>
+        <h1>RESTful Server <span class="page-name">| Delete a Product</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="queries"
+                :items="getRoutes"
                 placeholder="Choose One"
-                label="Queries (Get Data)"
+                label="GET Routes (Get Data)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -19,9 +19,9 @@
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="mutations"
+                :items="otherRoutes"
                 placeholder="Delete a Product"
-                label="Mutations (Create/Change Data)"
+                label="Other Routes (POST/PUT/DELETE)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -43,7 +43,7 @@
 
               <v-layout>
                 <v-flex xs12 md2>
-                  <v-btn color="warning" @click="deleteOneById(product.id, index)">Delete</v-btn>
+                  <v-btn color="warning" @click="deleteOneById(product._id, index)">Delete</v-btn>
                 </v-flex>
               </v-layout>
             </v-card>
@@ -55,8 +55,7 @@
 </template>
 
 <script>
-//import axios from "axios"
-import gql from "graphql-tag";
+import axios from "axios"
 
 export default {
   data() {
@@ -66,53 +65,42 @@ export default {
       select: null,
       productId: null,
       showing: true,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations
+      getRoutes: this.$store.state.getRoutes,
+      otherRoutes: this.$store.state.otherRoutes,
     };
   },
   methods: {
     runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     },
     deleteOneById(id, index) {
       this.productId = id;
       console.log("Deleted: " + this.products[index].name);
       this.products.splice(index, 1);
 
-      this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation deleteOne($id: ID) {
-              deleteProduct(where: { id: $id }) {
-                id
-                name
-              }
-            }
-          `,
-          variables: {
-            id: this.productId
-          }
-        })
-        .then(res => {
-          this.info = res.data;
-        })
-        .catch(err => {
-          this.error = err;
-        });
+              axios.delete('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.productId)
+
+            .then(response => {
+        console.log(response.data.message)
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
     }
   },
-  apollo: {
-    products: gql`
-      query {
-        products {
-          id
-          name
-          desc
-          price
-        }
-      }
-    `
+  mounted() {
+        axios
+      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .then(response => {
+        this.products = response.data
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
   }
 };
 </script>

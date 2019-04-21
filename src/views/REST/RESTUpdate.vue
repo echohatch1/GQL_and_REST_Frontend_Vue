@@ -2,16 +2,16 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / Update a Product</h1>
+        <h1>RESTful Server <span class="page-name">| Update a Product</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="queries"
+                :items="getRoutes"
                 placeholder="Choose One"
-                label="Queries (Get Data)"
+                label="GET Routes (Get Data)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -19,9 +19,9 @@
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="mutations"
+                :items="otherRoutes"
                 placeholder="Update a Product"
-                label="Mutations (Create/Change Data)"
+                label="Other Routes (POST/PUT/DELETE)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
+import axios from "axios";
 
 export default {
   data() {
@@ -75,8 +75,8 @@ export default {
       select: null,
       price: null,
       desc: null,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations
+      getRoutes: this.$store.state.getRoutes,
+      otherRoutes: this.$store.state.otherRoutes,
     };
   },
   methods: {
@@ -86,51 +86,32 @@ export default {
     updateOne(key) {
       console.log("Updating " + this.products[key].name);
 
-      this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation updateProduct(
-              $name: String!
-              $price: Int!
-              $desc: String!
-              $id: ID!
-            ) {
-              updateProduct(
-                data: { name: $name, price: $price, desc: $desc }
-                where: { id: $id }
-              ) {
-                name
-                price
-                desc
-              }
-            }
-          `,
-          variables: {
-            name: this.products[key].name,
-            price: parseInt(this.products[key].price, 10),
-            desc: this.products[key].desc,
-            id: this.products[key].id
-          }
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => {
-          this.error = err;
-        });
+        axios.put('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.products[key]._id, {
+          name: this.products[key].name,
+	        price: parseInt(this.products[key].price, 10),
+	        desc: this.products[key].desc
+  })
+            .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
     }
   },
-  apollo: {
-    products: gql`
-      query {
-        products {
-          id
-          name
-          desc
-          price
-        }
-      }
-    `
+  mounted() {
+        axios
+      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .then(response => {
+        this.products = response.data
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
   }
 };
 </script>

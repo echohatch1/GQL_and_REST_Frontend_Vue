@@ -2,16 +2,16 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / Create a Product</h1>
+        <h1>RESTful Server <span class="page-name">| Create a Product</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="queries"
+                :items="getRoutes"
                 placeholder="Choose One"
-                label="Queries (Get Data)"
+                label="GET Routes (Get Data)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -19,9 +19,9 @@
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="mutations"
+                :items="otherRoutes"
                 placeholder="Create a Product"
-                label="Mutations (Create/Change Data)"
+                label="Other Routes (POST/PUT/DELETE)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -64,36 +64,8 @@
 
         <v-layout row wrap>
           <v-flex v-for="product in products" xs12 lg6>
-            <!--<v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;" height="100%">
-              <v-layout row wrap>
-                <v-flex xs5>
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                    height="125px"
-                    contain
-                  ></v-img>
-                </v-flex>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline" style="text-transform: capitalize"><b>{{ product.name }}</b></div>
-                      <p><b>Description: </b>{{ product.desc | uppercase(product.desc, true) }}</p>
-                      <p><b>Price:</b> ${{ product.price }}</p>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-              </v-layout>
-              <v-divider></v-divider>
-              <v-layout align-content-end justify-end>
-                <v-flex>
-                  <v-card-actions>
-                      <v-btn color="warning" @click="deleteOneById(product.id)">Delete</v-btn>
-                  </v-card-actions>
-                  </v-flex>
-              </v-layout>
-            </v-card>-->
 
-            <v-card class="mx-auto" color="#26c6da" dark max-width="400">
+            <v-card class="mx-auto" color="#2d2d2d" dark max-width="400">
               <v-card-title>
                 <span
                   class="headline font-weight-bold"
@@ -112,8 +84,7 @@
 </template>
 
 <script>
-//import axios from "axios"
-import gql from "graphql-tag";
+import axios from "axios"
 
 export default {
   data() {
@@ -124,8 +95,8 @@ export default {
       price: null,
       desc: null,
       name: null,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations,
+      getRoutes: this.$store.state.getRoutes,
+      otherRoutes: this.$store.state.otherRoutes,
       valid: true,
       formName: "",
       formNameRules: [v => !!v || "Product name is required"],
@@ -138,40 +109,22 @@ export default {
   methods: {
     runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     },
     createOne() {
       if (this.$refs.form.validate()) {
-        this.$apollo
-          .mutate({
-            mutation: gql`
-              mutation createProduct(
-                $name: String
-                $price: Int
-                $desc: String
-              ) {
-                createProduct(
-                  data: { name: $name, price: $price, desc: $desc }
-                ) {
-                  name
-                  price
-                  desc
-                }
-              }
-            `,
-            variables: {
-              name: this.name,
-              price: parseInt(this.price, 10),
-              desc: this.desc
-            }
-          })
-          .then(res => {
-            this.products = res.data;
-            console.log(this.products[0].data.name + " created");
-          })
-          .catch(err => {
-            this.error = err;
-          });
+        axios.post('https://shrouded-hollows-45616.herokuapp.com/products', {
+          name: this.name,
+	        price: this.price,
+	        desc: this.desc
+  })
+            .then(response => {
+        this.products.push(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
       }
     }
   }

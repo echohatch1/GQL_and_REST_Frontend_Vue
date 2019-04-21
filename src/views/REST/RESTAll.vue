@@ -2,16 +2,16 @@
   <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
     <v-card>
       <v-container fluid grid-list-lg>
-        <h1>GraphQL Server / All Products</h1>
+        <h1>RESTful Server <span class="page-name">| All Products</span></h1>
 
         <v-container id="dropdown-example" grid-list-xl>
           <v-layout row wrap>
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="queries"
+                :items="getRoutes"
                 placeholder="All Products"
-                label="Queries (Get Data)"
+                label="GET Routes (Get Data)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -19,9 +19,9 @@
             <v-flex xs12 sm6>
               <v-select
                 v-model="select"
-                :items="mutations"
+                :items="otherRoutes"
                 placeholder="Choose One"
-                label="Mutations (Create/Change Data)"
+                label="Other Routes (POST/PUT/DELETE)"
                 @change="runRoute()"
               ></v-select>
             </v-flex>
@@ -42,7 +42,7 @@
 
               <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
 
-              <v-card-text>{{ product.id }}</v-card-text>
+              <v-card-text>{{ product._id }}</v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -52,14 +52,12 @@
 </template>
 
 <script>
-//import axios from "axios"
-import gql from "graphql-tag";
+import axios from "axios"
 
 export default {
   methods: {
     runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     }
   },
   data() {
@@ -67,27 +65,23 @@ export default {
       info: "",
       products: [],
       select: null,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations
+      getRoutes: this.$store.state.getRoutes,
+      otherRoutes: this.$store.state.otherRoutes,
     };
   },
   mounted() {
-    // return axios
-    //   .get("https://pokeapi.co/api/v2/pokemon/1")
-    //   .then(response => (this.info = response));
-  },
-  apollo: {
-    products: gql`
-      query {
-        products {
-          id
-          name
-          desc
-          price
-        }
-      }
-    `
+    axios
+      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .then(response => {
+        this.products = response.data
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
   }
+
 };
 </script>
 
