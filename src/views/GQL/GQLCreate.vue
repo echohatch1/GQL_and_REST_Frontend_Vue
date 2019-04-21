@@ -64,36 +64,8 @@
 
         <v-layout row wrap>
           <v-flex v-for="product in products" xs12 lg6>
-            <!--<v-card color="cyan darken-2" class="white--text" style="padding-top: 20px;" height="100%">
-              <v-layout row wrap>
-                <v-flex xs5>
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                    height="125px"
-                    contain
-                  ></v-img>
-                </v-flex>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline" style="text-transform: capitalize"><b>{{ product.name }}</b></div>
-                      <p><b>Description: </b>{{ product.desc | uppercase(product.desc, true) }}</p>
-                      <p><b>Price:</b> ${{ product.price }}</p>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-              </v-layout>
-              <v-divider></v-divider>
-              <v-layout align-content-end justify-end>
-                <v-flex>
-                  <v-card-actions>
-                      <v-btn color="warning" @click="deleteOneById(product.id)">Delete</v-btn>
-                  </v-card-actions>
-                  </v-flex>
-              </v-layout>
-            </v-card>-->
 
-            <v-card class="mx-auto" color="#26c6da" dark max-width="400">
+            <v-card class="mx-auto" color="#2d2d2d" dark max-width="400">
               <v-card-title>
                 <span
                   class="headline font-weight-bold"
