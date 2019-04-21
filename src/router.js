@@ -56,32 +56,32 @@ export default new Router({
       component: GQLUpdate
     },
     {
-      path: "/RESTAll",
+      path: "/restall",
       name: "RESTAll",
       component: RESTAll
     },
     {
-      path: "/RESTFindId",
+      path: "/restfindId",
       name: "RESTFindId",
       component: RESTFindId
     },
     {
-      path: "/RESTFindName",
+      path: "/restfindName",
       name: "RESTFindName",
       component: RESTFindName
     },
     {
-      path: "/RESTDelete",
+      path: "/restdelete",
       name: "RESTDelete",
       component: RESTDelete
     },
     {
-      path: "/RESTCreate",
+      path: "/restcreate",
       name: "RESTCreate",
       component: RESTCreate
     },
     {
-      path: "/RESTUpdate",
+      path: "/restupdate",
       name: "RESTUpdate",
       component: RESTUpdate
     },

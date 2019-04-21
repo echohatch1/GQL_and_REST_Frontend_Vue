@@ -15,6 +15,16 @@ export default new Vuex.Store({
         {text: 'Update a Product', value: 'gqlupdate'},
         {text: 'Delete a Product', value: 'gqldelete'},
         ],
+    getRoutes: [
+        {text: 'All Products', value: 'restall'},
+        {text: 'Find by Id', value: 'restfindid'},
+        {text: 'Find by Name', value: 'restfindname'}
+        ],
+      otherRoutes: [
+        {text: 'Create a Product', value: 'restcreate'}, 
+        {text: 'Update a Product', value: 'restupdate'},
+        {text: 'Delete a Product', value: 'restdelete'},
+        ],
   },
   mutations: {},
   actions: {}
