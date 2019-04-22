@@ -54,14 +54,12 @@
                     v-model="desc"
                   ></v-textarea>
                   <v-text-field
-                    :rules="formNameRules"
                     required
                     solo
                     label="Product Weight"
                     v-model="weight"
                   ></v-text-field>
                   <v-text-field
-                    :rules="formNameRules"
                     required
                     solo
                     label="Product Manufacturer"
@@ -121,6 +119,8 @@ export default {
       formNameRules: [v => !!v || "Product name is required"],
       formDesc: "",
       formDescRules: [v => !!v || "Product description is required"],
+      formPrice: "",
+      formPriceRules: [v => !!v || "Product price is required"],
     };
   },
   methods: {
@@ -130,9 +130,9 @@ export default {
     createOne() {
       if (this.$refs.form.validate()) {
         axios.post('https://shrouded-hollows-45616.herokuapp.com/products', {
-          name: this.name,
+          name: this.name.toLowerCase(),
 	        price: this.price,
-	        desc: this.desc
+	        desc: this.desc.toLowerCase()
   })
             .then(response => {
         this.products.push(response.data)
