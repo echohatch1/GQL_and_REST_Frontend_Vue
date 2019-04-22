@@ -106,9 +106,9 @@ export default {
             }
           `,
           variables: {
-            name: this.products[key].name,
+            name: this.products[key].name.toLowerCase(),
             price: parseInt(this.products[key].price, 10),
-            desc: this.products[key].desc,
+            desc: this.products[key].desc.toLowerCase(),
             id: this.products[key].id
           }
         })
