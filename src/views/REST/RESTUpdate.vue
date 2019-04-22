@@ -48,6 +48,8 @@
                     <v-text-field solo label="Name" v-model="products[key].name"></v-text-field>
                     <v-text-field solo type="number" label="Price" v-model="products[key].price"></v-text-field>
                     <v-textarea solo label="Description" v-model="products[key].desc"></v-textarea>
+                    <v-textarea solo label="Weight" v-model="products[key].weight"></v-textarea>
+                    <v-textarea solo label="Manufacturer" v-model="products[key].manuf"></v-textarea>
                   </v-flex>
                 </v-layout>
                 <v-layout>
@@ -87,9 +89,11 @@ export default {
       console.log("Updating " + this.products[key].name);
 
         axios.put('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.products[key]._id, {
-          name: this.products[key].name,
+          name: this.products[key].name.toLowerCase(),
 	        price: parseInt(this.products[key].price, 10),
-	        desc: this.products[key].desc
+	        desc: this.products[key].desc.toLowerCase(),
+	        weight: this.products[key].weight,
+	        manuf: this.products[key].manuf.toLowerCase(),
   })
             .then(response => {
         console.log(response.data)

@@ -53,6 +53,20 @@
                     label="Product Description"
                     v-model="desc"
                   ></v-textarea>
+                  <v-text-field
+                    :rules="formNameRules"
+                    required
+                    solo
+                    label="Product Weight"
+                    v-model="weight"
+                  ></v-text-field>
+                  <v-text-field
+                    :rules="formNameRules"
+                    required
+                    solo
+                    label="Product Manufacturer"
+                    v-model="manuf"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12 md2>
                   <v-btn :disabled="!valid" @click="createOne()" class="blue white--text">Create</v-btn>
@@ -73,8 +87,11 @@
                 >{{ product.name }}</span>
               </v-card-title>
 
-              <v-card-text class="title font-weight-light">{{ product.desc }}</v-card-text>
+              <v-card-text class="title font-weight-light">{{ product.desc | uppercase(product.desc, true) }}</v-card-text>
+
               <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
+              <v-card-text class="title font-weight-light">Weight: {{ product.weight }}</v-card-text>
+              <v-card-text class="title font-weight-light" style="text-transform: capitalize">Manufacturer: {{ product.manuf }}</v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -95,6 +112,8 @@ export default {
       price: null,
       desc: null,
       name: null,
+      weight: null,
+      manuf: null,
       getRoutes: this.$store.state.getRoutes,
       otherRoutes: this.$store.state.otherRoutes,
       valid: true,
@@ -102,8 +121,6 @@ export default {
       formNameRules: [v => !!v || "Product name is required"],
       formDesc: "",
       formDescRules: [v => !!v || "Product description is required"],
-      formPrice: "",
-      formPriceRules: [v => !!v || "Product price is required"]
     };
   },
   methods: {

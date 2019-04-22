@@ -49,8 +49,11 @@
                 >{{ product.name }}</span>
               </v-card-title>
 
-              <v-card-text class="title font-weight-light">{{ product.desc }}</v-card-text>
+              <v-card-text class="title font-weight-light">{{ product.desc | uppercase(product.desc, true) }}</v-card-text>
+
               <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
+              <v-card-text class="title font-weight-light">Weight: {{ product.weight }}</v-card-text>
+              <v-card-text class="title font-weight-light" style="text-transform: capitalize">Manufacturer: {{ product.manuf }}</v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
