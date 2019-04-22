@@ -48,6 +48,8 @@
                     <v-text-field solo label="Name" v-model="products[key].name"></v-text-field>
                     <v-text-field solo type="number" label="Price" v-model="products[key].price"></v-text-field>
                     <v-textarea solo label="Description" v-model="products[key].desc"></v-textarea>
+                    <v-textarea solo label="Weight" v-model="products[key].weight"></v-textarea>
+                    <v-textarea solo label="Manufacturer" v-model="products[key].manuf"></v-textarea>
                   </v-flex>
                 </v-layout>
                 <v-layout>
@@ -94,14 +96,18 @@ export default {
               $price: Int!
               $desc: String!
               $id: ID!
+              $weight: String
+              $manuf: String
             ) {
               updateProduct(
-                data: { name: $name, price: $price, desc: $desc }
+                data: { name: $name, price: $price, desc: $desc, weight: $weight, manuf: $manuf }
                 where: { id: $id }
               ) {
                 name
                 price
                 desc
+                weight
+                manuf
               }
             }
           `,
@@ -109,7 +115,9 @@ export default {
             name: this.products[key].name.toLowerCase(),
             price: parseInt(this.products[key].price, 10),
             desc: this.products[key].desc.toLowerCase(),
-            id: this.products[key].id
+            id: this.products[key].id,
+            weight: this.products[key].weight,
+	          manuf: this.products[key].manuf.toLowerCase(),
           }
         })
         .then(res => {
@@ -128,6 +136,8 @@ export default {
           name
           desc
           price
+          weight
+          manuf
         }
       }
     `

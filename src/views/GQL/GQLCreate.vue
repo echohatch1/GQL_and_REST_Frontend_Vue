@@ -53,6 +53,18 @@
                     label="Product Description"
                     v-model="desc"
                   ></v-textarea>
+                                    <v-text-field
+                    required
+                    solo
+                    label="Product Weight"
+                    v-model="weight"
+                  ></v-text-field>
+                  <v-text-field
+                    required
+                    solo
+                    label="Product Manufacturer"
+                    v-model="manuf"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12 md2>
                   <v-btn :disabled="!valid" @click="createOne()" class="blue white--text">Create</v-btn>
@@ -72,9 +84,11 @@
                   style="text-transform: capitalize"
                 >{{ product.name }}</span>
               </v-card-title>
-
-              <v-card-text class="title font-weight-light">{{ product.desc }}</v-card-text>
-              <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
+              
+              <v-card-text class="title font-weight-light">{{ product.desc | uppercase(product.desc, true) }}</v-card-text>
+ <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
+              <v-card-text class="title font-weight-light">Weight: {{ product.weight }}</v-card-text>
+              <v-card-text class="title font-weight-light" style="text-transform: capitalize">Manufacturer: {{ product.manuf }}</v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -84,7 +98,6 @@
 </template>
 
 <script>
-//import axios from "axios"
 import gql from "graphql-tag";
 
 export default {
@@ -96,6 +109,8 @@ export default {
       price: null,
       desc: null,
       name: null,
+      weight: null,
+      manuf: null,
       queries: this.$store.state.queries,
       mutations: this.$store.state.mutations,
       valid: true,
@@ -110,7 +125,6 @@ export default {
   methods: {
     runRoute: function() {
       this.$router.push(this.select);
-      //this.$router.go();
     },
     createOne() {
       if (this.$refs.form.validate()) {
@@ -121,20 +135,26 @@ export default {
                 $name: String
                 $price: Int
                 $desc: String
+                $weight: String
+                $manuf: String
               ) {
                 createProduct(
-                  data: { name: $name, price: $price, desc: $desc }
+                  data: { name: $name, price: $price, desc: $desc, weight: $weight, manuf: $manuf }
                 ) {
                   name
                   price
                   desc
+                  weight
+                  manuf
                 }
               }
             `,
             variables: {
-              name: this.name,
+              name: this.name.toLowerCase(),
               price: parseInt(this.price, 10),
-              desc: this.desc
+              desc: this.desc.toLowerCase(),
+              weight: this.weight,
+              manuf: this.manuf.toLowerCase()
             }
           })
           .then(res => {
