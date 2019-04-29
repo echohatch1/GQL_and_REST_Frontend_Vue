@@ -26,7 +26,7 @@ npm run serve
 ```
 ### Open a browser
 ```
-navigate to localhost:8080
+navigate to localhost:8080 - or use the Netlify URL
 start manipulating data!
 
 *RESTful server is hosted so no setup necessary
