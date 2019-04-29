@@ -16,7 +16,7 @@ npm run start
 Go to:
 https://mystifying-feynman-bb7e54.netlify.com/
 ```
-## or
+#### or
 
 ```
 git clone https://github.com/echohatch1/GQL_and_REST_Frontend_Vue.git
