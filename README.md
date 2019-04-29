@@ -13,6 +13,12 @@ npm run start
 ```
 ### Run the following commnads to set up Vue frontend
 ```
+Go to:
+https://mystifying-feynman-bb7e54.netlify.com/
+```
+## or
+
+```
 git clone https://github.com/echohatch1/GQL_and_REST_Frontend_Vue.git
 cd into API_Fontend_Vue
 npm install
@@ -22,4 +28,6 @@ npm run serve
 ```
 navigate to localhost:8080
 start manipulating data!
+
+*RESTful server is hosted so no setup necessary
 ```
