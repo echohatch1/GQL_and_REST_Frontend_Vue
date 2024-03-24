@@ -81,7 +81,7 @@ export default {
       console.log("Deleted: " + this.products[index].name);
       this.products.splice(index, 1);
 
-              axios.delete('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.productId)
+              axios.delete('https://landon-restful-server.onrender.com/products/id/' + this.productId)
 
             .then(response => {
         console.log(response.data.message)
@@ -95,7 +95,7 @@ export default {
   },
   mounted() {
         axios
-      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .get('https://landon-restful-server.onrender.com/products/')
       .then(response => {
         this.products = response.data
       })

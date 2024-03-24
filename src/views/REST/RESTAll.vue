@@ -73,7 +73,7 @@ export default {
   },
   mounted() {
     axios
-      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .get('https://landon-restful-server.onrender.com/products/')
       .then(response => {
         this.products = response.data
       })

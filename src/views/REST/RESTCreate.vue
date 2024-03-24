@@ -129,7 +129,7 @@ export default {
     },
     createOne() {
       if (this.$refs.form.validate()) {
-        axios.post('https://shrouded-hollows-45616.herokuapp.com/products', {
+        axios.post('https://landon-restful-server.onrender.com/products', {
           name: this.name.toLowerCase(),
 	        price: this.price,
 	        desc: this.desc.toLowerCase()

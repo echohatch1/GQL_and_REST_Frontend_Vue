@@ -88,7 +88,7 @@ export default {
     updateOne(key) {
       console.log("Updating " + this.products[key].name);
 
-        axios.put('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.products[key]._id, {
+        axios.put('https://landon-restful-server.onrender.com/products/id/' + this.products[key]._id, {
           name: this.products[key].name.toLowerCase(),
 	        price: parseInt(this.products[key].price, 10),
 	        desc: this.products[key].desc.toLowerCase(),
@@ -107,7 +107,7 @@ export default {
   },
   mounted() {
         axios
-      .get('https://shrouded-hollows-45616.herokuapp.com/products/')
+      .get('https://landon-restful-server.onrender.com/products/')
       .then(response => {
         this.products = response.data
       })

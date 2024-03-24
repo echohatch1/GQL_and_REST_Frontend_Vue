@@ -82,7 +82,7 @@ export default {
     },
     getOneById: function() {
     axios
-      .get('https://shrouded-hollows-45616.herokuapp.com/products/id/' + this.productId)
+      .get('https://landon-restful-server.onrender.com/products/id/' + this.productId)
       .then(response => {
         this.products.push(response.data)
       })
