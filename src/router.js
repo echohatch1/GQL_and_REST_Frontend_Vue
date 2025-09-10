@@ -20,10 +20,8 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: "/",
-      name: "GQLall",
-      redirect: "GQLall",
-      component: GQLAll
+      path: "/",      
+      redirect: "/restall",
     },
     {
       path: "/gqlall",

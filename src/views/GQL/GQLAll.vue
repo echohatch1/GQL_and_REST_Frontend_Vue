@@ -1,95 +1,61 @@
 <template>
-  <div id="e3" style="max-width: 900px; margin: auto;" class="grey lighten-3">
-    <v-card>
-      <v-container fluid grid-list-lg>
-        <h1>GraphQL Server <span class="page-name">| All Products</span></h1>
+  <v-container>
+    <v-layout text-center wrap>
+      <v-flex mb-4>
+        <br />
+        <h1 class="display-2 font-weight-bold mb-3">GraphQL Queries</h1>
+      </v-flex>
+    </v-layout>
 
-        <v-container id="dropdown-example" grid-list-xl>
-          <v-layout row wrap>
-            <v-flex xs12 sm6>
-              <v-select
-                v-model="select"
-                :items="queries"
-                placeholder="All Products"
-                label="Queries (Get Data)"
-                @change="runRoute()"
-              ></v-select>
-            </v-flex>
-
-            <v-flex xs12 sm6>
-              <v-select
-                v-model="select"
-                :items="mutations"
-                placeholder="Choose One"
-                label="Mutations (Create/Change Data)"
-                @change="runRoute()"
-              ></v-select>
-            </v-flex>
-          </v-layout>
-        </v-container>
-
-        <v-layout row wrap>
-          <v-flex v-for="product in products" xs12 lg6>
-            <v-card class color="#2d2d2d" dark max-width="400">
-              <v-card-title>
-                <span
-                  class="headline font-weight-bold"
-                  style="text-transform: capitalize"
-                >{{ product.name }}</span>
-              </v-card-title>
-
-              <v-card-text class="title font-weight-light">{{ product.desc | uppercase(product.desc, true) }}</v-card-text>
-
-              <v-card-text class="title font-weight-bold">${{ product.price }}</v-card-text>
-              <v-card-text class="title font-weight-light">Weight: {{ product.weight }}</v-card-text>
-              <v-card-text class="title font-weight-light" style="text-transform: capitalize">Manufacturer: {{ product.manuf }}</v-card-text>
-
-              <v-card-text>ID: {{ product.id }}</v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card>
-  </div>
+    <v-layout>
+      <v-flex>
+        <v-card>
+          <v-card-title>
+            <h2>All Products</h2>
+          </v-card-title>
+          <v-card-text>
+            <div v-if="loading">Loading...</div>
+            <div v-else-if="gqlError" class="error--text">
+              <p>
+                <strong>Could not connect to the GraphQL server.</strong>
+              </p>
+              <p>Please make sure the local server is running. See <a href="https://github.com/echohatch1/GraphQL_Server">https://github.com/echohatch1/GraphQL_Server</a></p>
+              <p>Details: {{ gqlError.message }}</p>
+            </div>
+            <div v-else>
+              <p v-for="product in products" :key="product.id">
+                {{ product.id }} - {{ product.name }} - ${{ product.price }}
+              </p>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import gql from "graphql-tag";
 
 export default {
-  methods: {
-    runRoute: function() {
-      this.$router.push(this.select);
-    }
-  },
-  data() {
-    return {
-      info: "",
-      products: [],
-      select: null,
-      queries: this.$store.state.queries,
-      mutations: this.$store.state.mutations
-    };
-  },
-  mounted() {
-
-  },
+  name: "GQLAll",
   apollo: {
     products: gql`
       query {
         products {
           id
           name
-          desc
           price
-          weight
-          manuf
         }
       }
     `
+  },
+  computed: {
+    ...mapGetters(["gqlError"]),
+    loading() {
+      return this.$apollo.queries.products.loading;
+    }
   }
 };
 </script>
-
-<style>
-</style>

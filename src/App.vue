@@ -1,42 +1,44 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar app color="info" dark>
       <v-toolbar-title class="headline text-uppercase">
         <span>RESTful and </span>
         <span class="font-weight-light">GraphQL Servers</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn-toggle v-model="toggle_one" mandatory>
-      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('gqlall')">GraphQL Server</v-btn>
-
-      <v-btn style="color: #e5e5e5; padding: 0 20px;" large color="info" @click="$router.push('restall')">RESTful Server</v-btn>
-      </v-btn-toggle>
+      <v-tabs
+        v-model="tab"
+        right
+        style="width: auto"
+        slider-color="#fff"
+      >
+        <v-tab :to="{ name: 'RESTAll' }">RESTful Server</v-tab>
+        <v-tab :to="{ name: 'GQLAll' }">GraphQL Server</v-tab>
+      </v-tabs>
     </v-toolbar>
-
-
 
     <v-content>
       <router-view></router-view>
     </v-content>
-
   </v-app>
 </template>
 
 <script>
-
-
 export default {
   name: 'App',
-  components: {
-  },
-  methods: {
-        
-  },
   data () {
     return {
-      text: 'center',
-        icon: 'justify',
-        toggle_one: 0,
+      tab: null,
+    }
+  },
+  watch: {
+    // Keep tab in sync with route
+    $route: {
+      immediate: true,
+      handler(to) {
+        if (to.name === 'GQLAll') this.tab = 0
+        else if (to.name === 'RESTAll') this.tab = 1
+      }
     }
   }
 }
@@ -50,4 +52,3 @@ h1 {
   color: #2d2d2d;
 }
 </style>
-

@@ -114,6 +114,8 @@ export default {
       manuf: null,
       getRoutes: this.$store.state.getRoutes,
       otherRoutes: this.$store.state.otherRoutes,
+      loading: false,
+      errored: false,
       valid: true,
       formName: "",
       formNameRules: [v => !!v || "Product name is required"],
@@ -132,7 +134,9 @@ export default {
         axios.post('https://landon-restful-server.onrender.com/products', {
           name: this.name.toLowerCase(),
 	        price: this.price,
-	        desc: this.desc.toLowerCase()
+	        desc: this.desc.toLowerCase(),
+          weight: this.weight,
+          manuf: this.manuf.toLowerCase()
   })
             .then(response => {
         this.products.push(response.data)
